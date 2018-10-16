@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% block nav %}
+<nav class="dropdownmenu">
+  <ul>
+
+   <li><a href="#">Project</a>
+      <ul id="submenu">
+         {% for p in prj %}
+        <li><a href="{% url 'get_Prj' p.pk %}">{{p.name}}</a></li>
+          {% endfor %}
+      </ul>
+    </li>
+    <li><a href="#">Version</a></li>
+
+  </ul>
+</nav>
+
+{% endblock %}

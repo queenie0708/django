@@ -1,0 +1,64 @@
+﻿{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Quality Software Testing Reporting Portal</li>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <table>
+
+
+   <form method = "post" id="Project">
+       {% block nav %}
+       {% block select %}
+        {% endblock %}
+       {% endblock %}
+   </form>
+
+   </table>
+    <table class="table">
+      <thead class="thead-inverse">
+      <tr>
+        <th>CI Build Test</th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr><td>Build Verification Test </td></tr>
+       <tr><td>Basic Function Test (1 DUT)</td></tr>
+       <tr><td>UI Performance2 (RR) </td></tr>
+       <tr><td>Monkey - Standard(1 DUT)</td></tr>
+       <tr><td>Reboot Stress (UI)</td></tr>
+       <tr><td>Reboot Stress (adb)</td></tr>
+       <tr><td>Factory Reset Stress</td></tr>
+    </tbody>
+           <thead class="thead-inverse">
+      <tr>
+        <th>Soak/Aging Test</th>
+          <th></th>
+          <th></th>
+          <td></td>
+          <td></td>
+          <tr><td>Soak<br>(w/ 12hr Monkey)</td><td></td><td></td><td></td><td></td></tr>
+      </tr>
+    </thead>
+               <thead class="thead-inverse">
+      <tr>
+        <th>Full Test Passes</th>
+          <th> </th>
+          <th> </th>
+          <td> </td>
+          <td> </td>
+          <tr><td>Monkey<br>1G RAM Profile</td><td></td><td></td><td></td><td></td></tr>
+      </tr>
+    </thead>
+    </table>
+
+  </table>
+{% endblock %}
+
+<script language="javascript">
+function getPrj(selectObject) {
+    var value = selectObject.value;
+}
+</script>

@@ -1,0 +1,17 @@
+{% extends 'home.html' %}
+
+{% block select %}
+       <select id="Project" >
+
+           <option >{{name}}</option>
+
+       </select>
+        <select name="Version" onchange=" " id="sw_version">
+           {% for sw in sw_version %}
+           <option value="{{sw}}">{{sw}}</option>
+           {% endfor %}
+       </select>
+{% endblock %}
+
+
+

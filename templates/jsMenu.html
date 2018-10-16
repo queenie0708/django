@@ -1,0 +1,90 @@
+{% extends 'home.html' %}
+
+{% block nav %}
+<section class="main">
+				<div class="wrapper-demo">
+					<div id="d1" class="wrapper-dropdown-1" tabindex="1">
+						<span>Project</span>
+					    <ul class="dropdown" tabindex="1">
+                            {% for p in prj %}
+					        <li value= p.dut_id><a href="#">{{p.name}}</a></li>
+					        {% endfor %}
+					    </ul>
+					</div>
+					<div id="d2" class="wrapper-dropdown-1" tabindex="2">
+						<span>Version</span>
+					    <ul class="dropdown" tabindex="2" id="sw_version">
+
+					    </ul>
+					</div>
+				</div>
+</section>
+
+		<script type="text/javascript">
+
+			function DropDown(el) {
+				this.d1 = el;
+				this.placeholder = this.d1.children('span');
+				this.opts = this.d1.find('ul.dropdown > li');
+				this.val = '';
+				this.index = -1;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.d1.on('click', function(event){
+						$(this).toggleClass('active');//清除掉所有active的class
+						return false;
+					});
+
+					obj.opts.on('click',function(){
+						var opt = $(this);
+						obj.val = opt.text();
+						obj.index = opt.index();
+						obj.placeholder.text('' + obj.val);
+                        var dut_id = $(this).val().value;
+                         $.ajax({
+                           url: '/ajax/load_versions/',
+                           data: {
+                                    'dut_id': dut_id
+                                  },
+                           type: 'POST',
+                           dataType: 'json',
+                           success: function (data) {
+                                for v in version {
+                                  $('#sw_version').append($("<li><a href="#"></a></li>")
+                                                  .attr("value", v['sw_version'])
+                                                  .text(v['sw_version']));}
+                                                  }
+
+                                  });
+        },
+
+      });
+					});
+				},
+				getValue : function() {
+					return this.val;
+				},
+				getIndex : function() {
+					return this.index;
+				}
+            }
+
+			$(function() {
+
+				var d1 = new DropDown( $('#d1') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-1').removeClass('active');
+				});
+
+			});
+
+
+		</script>
+
+{% endblock %}

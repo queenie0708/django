@@ -1,0 +1,88 @@
+.dropdownmenu ul, .dropdownmenu li {
+	margin: 0;
+	padding: 0;
+}
+
+.dropdownmenu ul {
+	background: gray;
+	list-style: none;
+	width: 100%;
+}
+
+.dropdownmenu li{
+	float: left;
+	position: relative;
+	width :50%;
+}
+.dropdownmenu a {
+	background: gray;
+	color: #FFFFFF;
+	display: block;
+	font: bold 12px/20px ;
+	padding: 10px 25px;
+	text-align: center;
+	text-decoration: none;
+	-webkit-transition: all .25s ease;
+	-moz-transition: all .25s ease;
+	-ms-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease;
+}
+
+.dropdownmenu li:hover a {
+	background: #000000;
+}
+#submenu {
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	top: 35px;
+	visibility: hidden;
+	z-index: 1;
+}
+
+li:hover ul#submenu {
+	opacity: 1;
+	top: 40px;	/* adjust this as per top nav padding top & bottom comes */
+	visibility: visible;
+ }
+
+#submenu li {
+	float: none;
+	width: 100%;font: 10px/15px ; hight: 50px; 
+}
+#submenu a:hover {
+	background: #DF4B05;
+}
+#submenu a {
+	background-color:#000000; }
+form{background:gray;}
+
+select{
+
+  border: solid 5px #FFF;
+   appearance:none;
+  -moz-appearance:none;    /*for firefox*/
+  -webkit-appearance:none;    /*for chrome*/
+  padding-right: 10px;
+  color:white;
+   font: bold 15px/15px sans-serif;
+   height:50px;
+   width: 200px;
+   overflow: hidden;
+   background: no-repeat right gray;
+  }
+  option::-ms-expand{ display: none; }
+option{
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari & Chrome */
+    appearance:none;
+    color:white;
+    font: 20px/20px sans-serif;
+    height:100px;
+    overflow:scroll;
+}
+option:hover{
+    color:white;
+    background-color:black;
+}

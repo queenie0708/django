@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Quality Software Testing Reporting Portal</li>
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+      <tr>
+          <td></td>
+          <td>
+       <select class="Project" id="100">
+
+          {% for p in prj %}
+           <option value="{{p.dut_id}}" >{{p.name}}</option>
+          {% endfor %}
+       </select>
+          </td>
+              <td>
+       <select class="Project" id="101">
+          {% for p in prj %}
+           <option value="{{p.dut_id}}"  {% if p.dut_id == '102' %}selected{% endif %} >{{p.name}}</option>
+          {% endfor %}
+       </select>
+          </td>
+              <td>
+       <select class="Project" id="102">
+          {% for p in prj %}
+           <option value="{{p.dut_id}}" {% if p.dut_id == '200' %}selected{% endif %}>{{p.name}}</option>
+          {% endfor %}
+       </select>
+          </td>
+      </tr>
+      <tr>
+          <td></td>
+          <td>
+        <select class="Version" id="200" >
+
+       </select>
+          </td>
+          <td>
+        <select class="Version" id="201" >
+
+       </select>
+          </td>
+          <td>
+        <select class="Version" id="202" >
+
+       </select>
+          </td>
+
+      </tr>
+</table>
+<div class="tbl-header">
+<table class="table">
+  <thead >
+  <tr height=40  id="build">
+  <th rowspan=2>Software Version</th>
+  <td>Frontier_00WW-userdebug
+  8.1.0 O11019 00WW_1_312 release-keys</td>
+  <td>Trochilus_00WW-userdebug 9
+  PPR1.180610.011 00WW_0_131 dev-keys</td>
+  <td>Essential2_00WW-userdebug
+  8.1.0 O11019 000T_2_582 release-keys</td>
+
+ </tr>
+ <tr height=20 id="lastupdate">
+  <td class="align-middle">8/28/2018 2:48</td>
+  <td  >9/10/2018 15:55</td>
+  <td  >9/11/2018 5:36</td>
+
+ </tr>
+  </thead>
+</table>
+</div>
+<div class="tbl-content">
+<table class="table">
+    <thead class="thead-light">
+        <th>CI Build Test</th>
+    </thead>
+    <tbody id="result">
+
+
+     <tr  id="5">
+  <td >Build Verification Test</td>
+  <td ></td>
+  <td ></td>
+  <td  ></td>
+ </tr>
+ <tr id="7">
+  <td >Basic Function Test (1 DUT)</td>
+  <td ></td>
+  <td  ></td>
+  <td  ></td>
+ </tr>
+ <tr id="4" >
+  <td >Monkey - Standard(1 DUT)</td>
+  <td ></td>
+  <td ></td>
+  <td ></td>
+ </tr>
+     <tr  id="2">
+  <td >Reboot Stress (UI)</td>
+   <td ></td>
+  <td ></td>
+     <td></td>
+ </tr>
+ <tr height=21  id="1">
+  <td >Reboot Stress (adb)</td>
+  <td ></td>
+  <td ></td>
+  <td ></td>
+ </tr>
+ <tr height=43 id="16">
+  <td height=43 >Factory
+  Reset Stress</td>
+   <td ></td>
+  <td ></td>
+     <td ></td>
+ </tr>
+ <tr height=42  id="20">
+  <td height=42>UI Performance2 (RR)</td>
+  <td ></td>
+  <td ></td>
+     <td></td>
+ </tr>
+ <tr height=21  id="3">
+  <td height=21 >ctsCamera</td>
+  <td rowspan=4  ></td>
+  <td rowspan=4 ></td>
+  <td rowspan=4 ></td>
+ </tr>
+ <tr height=21 >
+  <td height=21 >ctsHardware</td>
+ </tr>
+ <tr height=21 >
+  <td height=21 >ctsBluetooth</td>
+ </tr>
+ <tr height=21 >
+  <td height=21>ctsSensor</td>
+ </tr>
+
+    </tbody>
+  </table>
+</div>
+
+ <script language="javascript">
+
+$(document).ready(function(){
+
+    $(".Project").trigger("change");
+});
+
+
+       $(".Project").change(function()
+     {
+        var optionSelected = $("option:selected", this);
+        var dut_id = this.value;
+        var version_id = parseInt(this.id)+100;
+         $.ajax({
+                           url: '/ajax/load_versions/',
+                           data: {
+                                    'dut_id': dut_id,
+                                    //'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                  },
+                           type: 'GET',
+                           dataType: 'json',
+                           success: function (version)
+						   {
+                               var obj = JSON.parse(version)
+                                var version_json = JSON.parse(obj)
+                                $('#'+version_id).empty();
+                                for (i in version_json) {
+                                  $('#'+version_id).append($("<option></option>")
+                                                  .attr("value", version_json[i].sw_version+"|"+version_json[i].lastupdate)
+                                                  .text(version_json[i].sw_version+"|"+version_json[i].lastupdate));
+								}
+
+						   },
+
+
+               }).done(function() {
+                         $('#'+version_id).trigger("change");
+                          });
+
+     });
+
+      $(".Version").change(function()
+     {
+        var optionSelected = $("option:selected", this);
+        var sw_build = this.value;
+        var index = parseInt(this.id)-200;
+        var  build= sw_build.split("|");
+        var sw_version =build[0];
+        $('#build').children("td:eq("+index+")").text(sw_version);
+        $('#lastupdate').children("td:eq("+index+")").text(build[1]);
+       $.ajax({
+                           url: '/ajax/load_results/',
+                           data: {
+                                    'sw_version': sw_version,
+                                    //'csrfmiddlewaretoken': '{{ csrf_token }}'
+
+                                  },
+                           type: 'GET',
+                           dataType: 'json',
+                           success: function (result)
+						   {
+                                var obj = JSON.parse(result)
+                                var result_json = JSON.parse(obj)
+                                var a= index+1;
+                                $('#result tr').each(function(){
+                                $(this).children("td:eq("+a+")").empty();});
+                                  for (var i=0;i<result_json.length;i++)
+
+                                     {
+                                         if(result_json[i].type_id==4){
+
+                                                                      $('#'+result_json[i].type_id).children("td:eq("+a+")")
+                                                                                      .append($("<a></a>")
+                                                                                      .attr("href",result_json[i].result_url)
+                                                                                      .text(result_json[i].running_time+"| FC:"+result_json[i].FC )
+                                                                                      .append("<br/>"));
+                                                                      }
+                                          else{
+
+                                                                      $('#'+result_json[i].type_id).children("td:eq("+a+")")
+                                                                                      .append($("<a></a>")
+                                                                                      .attr("href",result_json[i].result_url)
+                                                                                      .text(result_json[i].case_pass_rate  )
+                                                                                      .append("<br/>"));
+                                              }
+
+                                     }
+
+
+						   },
+
+               });
+     });
+
+ </script>
+
+
+{% endblock %}
